@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.reshetnikov.bd.UI.UserInterface">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="849" height="466"/>
+    </constraints>
+    <properties/>
+    <border type="none" title="Database"/>
+    <children>
+      <tabbedpane id="20ea3" binding="tabbedPane1" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="fcc25" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Books"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="b10d7" class="javax.swing.JTable" binding="table1">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <autoCreateRowSorter value="false"/>
+                  <cellSelectionEnabled value="true"/>
+                  <columnSelectionAllowed value="true"/>
+                </properties>
+                <clientProperties>
+                  <JTable.autoStartsEdit class="java.lang.Boolean" value="false"/>
+                </clientProperties>
+              </component>
+              <component id="1aac4" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Add"/>
+                    <item value="Delete"/>
+                    <item value="Modify"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="f9220" class="javax.swing.JButton" binding="confirmButton1">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Confirm"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="10858" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Visitors"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="1daf9" class="javax.swing.JTable" binding="table2">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <autoCreateRowSorter value="false"/>
+                  <cellSelectionEnabled value="true"/>
+                </properties>
+              </component>
+              <component id="79f8" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Add"/>
+                    <item value="Delete"/>
+                    <item value="Modify"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="a5bf6" class="javax.swing.JButton" binding="confirmButton2">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Confirm"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="d25b3" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Publishing House"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="2bb69" class="javax.swing.JTable" binding="table3">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <cellSelectionEnabled value="true"/>
+                </properties>
+              </component>
+              <component id="6bdda" class="javax.swing.JComboBox" binding="comboBox3" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Add"/>
+                    <item value="Delete"/>
+                    <item value="Modify"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="8dbe0" class="javax.swing.JButton" binding="confirmButton3">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Confirm"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="3c0fb" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Exemplar"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="94a6f" class="javax.swing.JComboBox" binding="comboBox4" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <editable value="false"/>
+                  <model>
+                    <item value="Add"/>
+                    <item value="Delete"/>
+                    <item value="Modify"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="71a3c" class="javax.swing.JButton" binding="confirmButton4">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Confirm"/>
+                </properties>
+              </component>
+              <component id="766aa" class="javax.swing.JTable" binding="table4">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <cellSelectionEnabled value="true"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="3929f" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Find"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="24483" class="javax.swing.JTable" binding="table5" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <cellSelectionEnabled value="true"/>
+                </properties>
+              </component>
+              <component id="c164f" class="javax.swing.JComboBox" binding="comboBox5" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Книги"/>
+                    <item value="Посетители"/>
+                    <item value="Издательства"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="78eee" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>
