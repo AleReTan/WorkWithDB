@@ -8,10 +8,11 @@ import java.sql.*;
  */
 public class Service {
     //здесь различные методы типа добавить удалить изменить
-    private Connection connection = null;//Соединение с БД
+    public Connection connection = null;//Соединение с БД
     public Statement statement = null;//Для хранения запросов
+    public PreparedStatement preparedStatement = null;//Предварительно компилирует запрос
     public ResultSet resultSet = null;//Результат запросов
-    DBTableModel dbTableModel = new DBTableModel(true);//модель для таблицы
+
     //подключение и работа с БД
     public void openDB() {
         String user = "root";//логин
@@ -27,7 +28,6 @@ public class Service {
             //Присоединяемся и работа с БД
             connection = DriverManager.getConnection(url, user, password);
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from books");
             /*while (resultSet.next()) {
                 System.out.println(resultSet.getString(3));
             }*/
@@ -55,11 +55,6 @@ public class Service {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setTable(JTable table, ResultSet rs) throws Exception {
-        table.setModel(dbTableModel);
-        dbTableModel.setDataSource(rs);
     }
 
     public ResultSet getResultSet(){

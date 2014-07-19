@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class DBTableModel
         extends AbstractTableModel {
     // здесь мы будем хранить названия столбцов
-    private ArrayList columnNames = new ArrayList();
+    private ArrayList<String> columnNames = new ArrayList<String>();
     // список типов столбцов
-    private ArrayList columnTypes = new ArrayList();
+    private ArrayList<Class> columnTypes = new ArrayList<Class>();
     // хранилище для полученных данных из базы данных
-    private ArrayList data = new ArrayList();
+    private ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
 
     // конструктор позволяет задать возможность редактирования
     public DBTableModel(boolean editable) {
@@ -37,18 +37,18 @@ public class DBTableModel
 
     // тип данных столбца
     public Class getColumnClass(int column) {
-        return (Class) columnTypes.get(column);
+        return columnTypes.get(column);
     }
 
     // название столбца
     public String getColumnName(int column) {
-        return (String) columnNames.get(column);
+        return columnNames.get(column);
     }
 
     // данные в ячейке
     public Object getValueAt(int row, int column) {
         synchronized (data) {
-            return ((ArrayList) data.get(row)).get(column);
+            return (data.get(row)).get(column);
         }
     }
 
@@ -61,7 +61,7 @@ public class DBTableModel
     public void setValueAt(
             Object value, int row, int column) {
         synchronized (data) {
-            ((ArrayList) data.get(row)).set(column, value);
+            (data.get(row)).set(column, value);
         }
     }
 
