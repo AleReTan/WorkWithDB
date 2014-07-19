@@ -32,7 +32,9 @@ public class Service {
                 System.out.println(resultSet.getString(3));
             }*/
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database currently is unavailable.");
+            System.exit(0);
+            //e.printStackTrace();
         }
 
     }

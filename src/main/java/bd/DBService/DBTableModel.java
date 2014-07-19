@@ -30,7 +30,6 @@ public class DBTableModel
             return data.size();
         }
     }
-
     // количество столбцов
     public int getColumnCount() {
         return columnNames.size();
