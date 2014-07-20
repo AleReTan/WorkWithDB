@@ -48,10 +48,10 @@ public class UserInterface extends JFrame {
     private JButton refreshButton3;
     private JButton refreshButton4;
     public Service service = new Service();
-
+    //конструктор класса
     public UserInterface() throws Exception {
+        $$$setupUI$$$();    //установка сгенеренного интерфейса
         //Получение разрешения экрана и установка его высоты и ширины
-        $$$setupUI$$$();
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -71,25 +71,21 @@ public class UserInterface extends JFrame {
         comboBox5.addItem("Books");
         comboBox5.addItem("Visitors");
 
-        //работа с таблицами
+        service.openDB();                           //подключаемся к БД
+        refreshDB();                                //считываем первый раз данные
 
-        service.openDB();
-        refreshDB(service);
-        // service.closeDB();
-
-        //листнеры
+        //листнеры на кнопки и т.д.
         confirmButton1.addActionListener((e) -> {
             try {
-                String string = comboBox1.getSelectedItem().toString();
-                System.out.println(string);
-                switch (string) {
+                String string = comboBox1.getSelectedItem().toString();                                                                         //получаем то, что выбрано в comboBox'е
+                switch (string) {                                                                                                               //в зависимости от выбранного, выполняем действия
                     case "Add": {
-                        int newId = Integer.parseInt(textField6.getText());
-                        String newText = textField1.getText();
-                        String[] row = newText.split(";");
+                        int newId = Integer.parseInt(textField6.getText());                                                                     //получаем id записи
+                        String newText = textField1.getText();                                                                                  //получаем введенный текст
+                        String[] row = newText.split(";");                                                                                      //массив строк, с помощью разделителя
                         //О хлебе и людях;Сергей Пахомов;Новелла;777;1917;1;1
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
+                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
+                        service.preparedStatement.setInt(1, newId);                                                                             //здесь и ниже передаем в подготовленный запрос параметры
                         service.preparedStatement.setString(2, row[0]);
                         service.preparedStatement.setString(3, row[1]);
                         service.preparedStatement.setString(4, row[2]);
@@ -97,28 +93,28 @@ public class UserInterface extends JFrame {
                         service.preparedStatement.setString(6, row[4]);
                         service.preparedStatement.setString(7, row[5]);
                         service.preparedStatement.setString(8, row[6]);
-                        service.preparedStatement.executeUpdate();
+                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
                         break;
                     }
                     case "Delete": {
-                        int id = Integer.parseInt(textField6.getText());
-                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");
-                        service.preparedStatement.setInt(1, id);
-                        service.preparedStatement.executeUpdate();
+                        int id = Integer.parseInt(textField6.getText());                                                                        //получаем id записи
+                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
+                        service.preparedStatement.setInt(1, id);                                                                                //здесь и ниже передаем в подготовленный запрос параметры
+                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
                         break;
                     }
 
                     case "Edit": {
-                        int newId = Integer.parseInt(textField6.getText());
-                        String newText = textField1.getText();
-                        String[] row = newText.split(";");
+                        int newId = Integer.parseInt(textField6.getText());                                                                     //получаем id записи
+                        String newText = textField1.getText();                                                                                  //получаем введенный текст
+                        String[] row = newText.split(";");                                                                                      //массив строк, с помощью разделителя
                         //О хлебе и людях;Сергей Пахомов;Новелла;777;1917;1;1
                         //service.preparedStatement = service.connection.prepareStatement("UPDATE books SET BookTitle=?,bookAuthor=?,Genre=?,PublishingYear=?,NumberOfPage=?,idExemplar=?,idPublishingHouse=? where idExemplar=?");//("UPDATE INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");
-                        service.preparedStatement.setInt(1, newId);
+                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
+                        service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
                         service.preparedStatement.executeUpdate();
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
+                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
+                        service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
                         service.preparedStatement.setString(2, row[0]);
                         service.preparedStatement.setString(3, row[1]);
                         service.preparedStatement.setString(4, row[2]);
@@ -126,7 +122,7 @@ public class UserInterface extends JFrame {
                         service.preparedStatement.setString(6, row[4]);
                         service.preparedStatement.setString(7, row[5]);
                         service.preparedStatement.setString(8, row[6]);
-                        service.preparedStatement.executeUpdate();
+                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
                         break;
                     }
 
@@ -134,7 +130,7 @@ public class UserInterface extends JFrame {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-        });
+        });                                                                                                                                     //остальные листнеры имеют схожую структуру, отличие в запросах
         confirmButton2.addActionListener((e) -> {
             try {
                 String string = comboBox2.getSelectedItem().toString();
@@ -273,34 +269,36 @@ public class UserInterface extends JFrame {
                 e1.printStackTrace();
             }
         });
+
         textField5.addActionListener((e) -> {
             //System.out.println("Кнопка нажата. Lambda!");
             comboBox5.getSelectedItem();
         });
-        refreshButton1.addActionListener((e) -> {
+
+        refreshButton1.addActionListener((e) -> {                           //листнер к кнопке обновить
             try {
-                refreshDB(service);
+                refreshDB();                                                //метод обновляющий бд
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-        });
+        });                                                                 //к другим кнопкам листнеры аналогичные
         refreshButton2.addActionListener((e) -> {
             try {
-                refreshDB(service);
+                refreshDB();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
         });
         refreshButton3.addActionListener((e) -> {
             try {
-                refreshDB(service);
+                refreshDB();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
         });
         refreshButton4.addActionListener((e) -> {
             try {
-                refreshDB(service);
+                refreshDB();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
@@ -311,7 +309,8 @@ public class UserInterface extends JFrame {
         contentPane.add($$$getRootComponent$$$());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        addWindowListener(new WindowAdapter() {
+
+        addWindowListener(new WindowAdapter() {                                     //листнер на крестик, чтобы при ее нажатие на него, вначале происходило отключение от БД. и затем завершение работы
             @Override
             public void windowClosing(WindowEvent e) {
                service.closeDB();
@@ -328,29 +327,30 @@ public class UserInterface extends JFrame {
         }
     }
 
-    public void refreshDB(Service service) throws Exception {
+    //Обновляет таблицы, путем получения данных из БД
+    public void refreshDB() throws Exception {
         service.resultSet = service.statement.executeQuery("select * from books");
-        DBTableModel dbTableModel1 = new DBTableModel(true);//модель для таблицы 1
+        DBTableModel dbTableModel1 = new DBTableModel(false);//модель для таблицы 1
         table1.setModel(dbTableModel1);
         dbTableModel1.setDataSource(service.resultSet);
 
         service.resultSet = service.statement.executeQuery("select * from visitors");
-        DBTableModel dbTableModel2 = new DBTableModel(true);//модель для таблицы 2
+        DBTableModel dbTableModel2 = new DBTableModel(false);//модель для таблицы 2
         table2.setModel(dbTableModel2);
         dbTableModel2.setDataSource(service.resultSet);
 
         service.resultSet = service.statement.executeQuery("select * from publishinghouse");
-        DBTableModel dbTableModel3 = new DBTableModel(true);//модель для таблицы 3
+        DBTableModel dbTableModel3 = new DBTableModel(false);//модель для таблицы 3
         table3.setModel(dbTableModel3);
         dbTableModel3.setDataSource(service.resultSet);
 
         service.resultSet = service.statement.executeQuery("select * from exemplar");
-        DBTableModel dbTableModel4 = new DBTableModel(true);//модель для таблицы 4
+        DBTableModel dbTableModel4 = new DBTableModel(false);//модель для таблицы 4
         table4.setModel(dbTableModel4);
         dbTableModel4.setDataSource(service.resultSet);
     }
 
-
+    //Код сгенеренный IDE
     /**
      * Method generated by IntelliJ IDEA GUI Designer
      * >>> IMPORTANT!! <<<

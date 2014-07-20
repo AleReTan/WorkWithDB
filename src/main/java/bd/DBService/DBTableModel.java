@@ -8,6 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Александр on 08.07.2014.
  */
+//для изменения модели уже созданной таблицы
 public class DBTableModel
         extends AbstractTableModel {
     // здесь мы будем хранить названия столбцов
