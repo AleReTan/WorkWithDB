@@ -48,6 +48,7 @@ public class UserInterface extends JFrame {
     private JButton refreshButton3;
     private JButton refreshButton4;
     public Service service = new Service();
+
     //конструктор класса
     public UserInterface() throws Exception {
         $$$setupUI$$$();    //установка сгенеренного интерфейса
@@ -71,109 +72,165 @@ public class UserInterface extends JFrame {
         comboBox5.addItem("Books");
         comboBox5.addItem("Visitors");
 
-        service.openDB();                           //подключаемся к БД
-        refreshDB();                                //считываем первый раз данные
+        //Подсказки
+        textField1.setToolTipText("Пример входных данных: Название книги;Автор;Жанр;Год выпуска, формат: YYYY;Количество страниц;id экземпляра;id издательства");
+        textField2.setToolTipText("Пример входных данных: Имя;Фамилия;День рождения, формат: YYYY-MM-DD;Контактный телефон");
+        textField3.setToolTipText("Пример входных данных: Название издательства");
+        textField4.setToolTipText("Пример входных данных: Наличие(0 или 1);Дата взятия, формат: YYYY-MM-DD;Дата возврата, формат: YYYY-MM-DD;id посетителя");
+        textField6.setToolTipText("Укажите id книги");
+        textField7.setToolTipText("Укажите id посетителя");
+        textField8.setToolTipText("Укажите id издательства");
+        textField9.setToolTipText("Укажите id экземпляра");
 
+        //подключение к БД
+        service.openDB();                                                                                                                               //подключаемся к БД
+        refreshDB();                                                                                                                                    //считываем первый раз данные
         //листнеры на кнопки и т.д.
         confirmButton1.addActionListener((e) -> {
             try {
-                String string = comboBox1.getSelectedItem().toString();                                                                         //получаем то, что выбрано в comboBox'е
-                switch (string) {                                                                                                               //в зависимости от выбранного, выполняем действия
+                String string = comboBox1.getSelectedItem().toString();                                                                                 //получаем то, что выбрано в comboBox'е
+                switch (string) {                                                                                                                       //в зависимости от выбранного, выполняем действия
                     case "Add": {
-                        int newId = Integer.parseInt(textField6.getText());                                                                     //получаем id записи
-                        String newText = textField1.getText();                                                                                  //получаем введенный текст
-                        String[] row = newText.split(";");                                                                                      //массив строк, с помощью разделителя
-                        //О хлебе и людях;Сергей Пахомов;Новелла;777;1917;1;1
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
-                        service.preparedStatement.setInt(1, newId);                                                                             //здесь и ниже передаем в подготовленный запрос параметры
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.setString(6, row[4]);
-                        service.preparedStatement.setString(7, row[5]);
-                        service.preparedStatement.setString(8, row[6]);
-                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
-                        break;
+                        //получаем id записи
+                        String newText = textField1.getText();                                                                                          //получаем введенный текст
+                        if (newText.isEmpty() || textField6.getText().isEmpty()) {                                                                    //проверка на пустые строки
+                            textField1.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");                                                                                          //массив строк, с помощью разделителя
+                            int newId = Integer.parseInt(textField6.getText());                                                                         //получаем id записи
+                            if (row.length == 7) {
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
+                                service.preparedStatement.setInt(1, newId);                                                                             //здесь и ниже передаем в подготовленный запрос параметры
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.setString(6, row[4]);
+                                service.preparedStatement.setString(7, row[5]);
+                                service.preparedStatement.setString(8, row[6]);
+                                service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
+                                break;
+                            } else {
+                                textField6.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
                     case "Delete": {
-                        int id = Integer.parseInt(textField6.getText());                                                                        //получаем id записи
-                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
-                        service.preparedStatement.setInt(1, id);                                                                                //здесь и ниже передаем в подготовленный запрос параметры
-                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
-                        break;
+                        if (textField6.getText().isEmpty()) {
+                            textField1.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            int id = Integer.parseInt(textField6.getText());                                                                                //получаем id записи
+                            service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                         //подготовленный запрос
+                            service.preparedStatement.setInt(1, id);                                                                                        //здесь и ниже передаем в подготовленный запрос параметры
+                            service.preparedStatement.executeUpdate();                                                                                      //выполняет заданный запрос
+                            break;
+                        }
                     }
-
                     case "Edit": {
-                        int newId = Integer.parseInt(textField6.getText());                                                                     //получаем id записи
-                        String newText = textField1.getText();                                                                                  //получаем введенный текст
-                        String[] row = newText.split(";");                                                                                      //массив строк, с помощью разделителя
-                        //О хлебе и людях;Сергей Пахомов;Новелла;777;1917;1;1
-                        //service.preparedStatement = service.connection.prepareStatement("UPDATE books SET BookTitle=?,bookAuthor=?,Genre=?,PublishingYear=?,NumberOfPage=?,idExemplar=?,idPublishingHouse=? where idExemplar=?");//("UPDATE INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-                        service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
-                        service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
-                        service.preparedStatement.executeUpdate();
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
-                        service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.setString(6, row[4]);
-                        service.preparedStatement.setString(7, row[5]);
-                        service.preparedStatement.setString(8, row[6]);
-                        service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
-                        break;
+                        String newText = textField1.getText();                                                                                          //получаем введенный текст
+                        if (newText.isEmpty() || textField6.getText().isEmpty()) {                                                                    //проверка на пустые строки
+                            textField1.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");                                                                                          //массив строк, с помощью разделителя
+                            int newId = Integer.parseInt(textField6.getText());                                                                         //получаем id записи
+                            //service.preparedStatement = service.connection.prepareStatement("UPDATE books SET BookTitle=?,bookAuthor=?,Genre=?,PublishingYear=?,NumberOfPage=?,idExemplar=?,idPublishingHouse=? where idExemplar=?");//("UPDATE INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+                            if (row.length == 7) {
+                                service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
+                                service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
+                                service.preparedStatement.executeUpdate();
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
+                                service.preparedStatement.setInt(1, newId);                                                                             //здесь передаем в подготовленный запрос параметр
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.setString(6, row[4]);
+                                service.preparedStatement.setString(7, row[5]);
+                                service.preparedStatement.setString(8, row[6]);
+                                service.preparedStatement.executeUpdate();                                                                              //выполняет заданный запрос
+                                break;
+                            } else {
+                                textField6.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
-
                 }
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-        });                                                                                                                                     //остальные листнеры имеют схожую структуру, отличие в запросах
+        });
+        //остальные листнеры имеют схожую структуру, отличие в запросах
         confirmButton2.addActionListener((e) -> {
             try {
                 String string = comboBox2.getSelectedItem().toString();
-                System.out.println(string);
                 switch (string) {
                     case "Add": {
-                        int newId = Integer.parseInt(textField7.getText());
                         String newText = textField2.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO visitors VALUES (?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField7.getText().isEmpty()) {
+                            textField2.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField7.getText());
+                            if (row.length == 4) {
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO visitors VALUES (?, ?, ?, ?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField7.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
                     case "Delete": {
-                        int id = Integer.parseInt(textField7.getText());
-                        service.preparedStatement = service.connection.prepareStatement("delete from visitors where idVisitors = ?");
-                        service.preparedStatement.setInt(1, id);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (textField7.getText().isEmpty()) {
+                            textField2.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            int id = Integer.parseInt(textField7.getText());
+                            service.preparedStatement = service.connection.prepareStatement("delete from visitors where idVisitors = ?");
+                            service.preparedStatement.setInt(1, id);
+                            service.preparedStatement.executeUpdate();
+                            break;
+                        }
                     }
 
                     case "Edit": {
-                        int newId = Integer.parseInt(textField7.getText());
                         String newText = textField2.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("delete from visitors where idVisitors = ?");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.executeUpdate();
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField7.getText().isEmpty()) {
+                            textField2.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField7.getText());
+                            if (row.length == 4) {
+                                service.preparedStatement = service.connection.prepareStatement("delete from visitors where idVisitors = ?");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.executeUpdate();
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField7.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
-
                 }
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -182,40 +239,63 @@ public class UserInterface extends JFrame {
         confirmButton3.addActionListener((e) -> {
             try {
                 String string = comboBox3.getSelectedItem().toString();
-                System.out.println(string);
                 switch (string) {
                     case "Add": {
-                        int newId = Integer.parseInt(textField8.getText());
                         String newText = textField3.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO publishinghouse VALUES (?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField8.getText().isEmpty()) {
+                            textField3.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField8.getText());
+                            if (row.length == 1) {
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO publishinghouse VALUES (?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField8.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
                     case "Delete": {
-                        int id = Integer.parseInt(textField8.getText());
-                        service.preparedStatement = service.connection.prepareStatement("delete from publishinghouse where idPublishingHouse = ?");
-                        service.preparedStatement.setInt(1, id);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (textField8.getText().isEmpty()) {
+                            textField3.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            int id = Integer.parseInt(textField8.getText());
+                            service.preparedStatement = service.connection.prepareStatement("delete from publishinghouse where idPublishingHouse = ?");
+                            service.preparedStatement.setInt(1, id);
+                            service.preparedStatement.executeUpdate();
+                            break;
+                        }
                     }
 
                     case "Edit": {
-                        int newId = Integer.parseInt(textField8.getText());
                         String newText = textField3.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("delete from publishinghouse where idPublishinghouse = ?");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.executeUpdate();
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO publishinghouse VALUES (?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField7.getText().isEmpty()) {
+                            textField3.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField8.getText());
+                            if (row.length == 1) {
+                                service.preparedStatement = service.connection.prepareStatement("delete from publishinghouse where idPublishinghouse = ?");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.executeUpdate();
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO publishinghouse VALUES (?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField8.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
-
                 }
             } catch (SQLException e1) {
                 e1.printStackTrace();
@@ -224,44 +304,68 @@ public class UserInterface extends JFrame {
         confirmButton4.addActionListener((e) -> {
             try {
                 String string = comboBox4.getSelectedItem().toString();
-                System.out.println(string);
                 switch (string) {
                     case "Add": {
-                        int newId = Integer.parseInt(textField9.getText());
                         String newText = textField4.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO exemplar VALUES (?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField9.getText().isEmpty()) {
+                            textField4.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField9.getText());
+                            if (row.length == 4) {
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO exemplar VALUES (?, ?, ?, ?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField9.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
                     case "Delete": {
-                        int id = Integer.parseInt(textField9.getText());
-                        service.preparedStatement = service.connection.prepareStatement("delete from exemplar where idExemplar = ?");
-                        service.preparedStatement.setInt(1, id);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (textField9.getText().isEmpty()) {
+                            textField4.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            int id = Integer.parseInt(textField9.getText());
+                            service.preparedStatement = service.connection.prepareStatement("delete from exemplar where idExemplar = ?");
+                            service.preparedStatement.setInt(1, id);
+                            service.preparedStatement.executeUpdate();
+                            break;
+                        }
                     }
 
                     case "Edit": {
-                        int newId = Integer.parseInt(textField9.getText());
                         String newText = textField4.getText();
-                        String[] row = newText.split(";");
-                        service.preparedStatement = service.connection.prepareStatement("delete from exemplar where idExemplar = ?");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.executeUpdate();
-                        service.preparedStatement = service.connection.prepareStatement("INSERT INTO exemplar VALUES (?, ?, ?, ?, ?);");
-                        service.preparedStatement.setInt(1, newId);
-                        service.preparedStatement.setString(2, row[0]);
-                        service.preparedStatement.setString(3, row[1]);
-                        service.preparedStatement.setString(4, row[2]);
-                        service.preparedStatement.setString(5, row[3]);
-                        service.preparedStatement.executeUpdate();
-                        break;
+                        if (newText.isEmpty() || textField9.getText().isEmpty()) {
+                            textField4.setText("An empty string is not allowed.");
+                            break;
+                        } else {
+                            String[] row = newText.split(";");
+                            int newId = Integer.parseInt(textField9.getText());
+                            if (row.length == 4) {
+                                service.preparedStatement = service.connection.prepareStatement("delete from exemplar where idExemplar = ?");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.executeUpdate();
+                                service.preparedStatement = service.connection.prepareStatement("INSERT INTO exemplar VALUES (?, ?, ?, ?, ?);");
+                                service.preparedStatement.setInt(1, newId);
+                                service.preparedStatement.setString(2, row[0]);
+                                service.preparedStatement.setString(3, row[1]);
+                                service.preparedStatement.setString(4, row[2]);
+                                service.preparedStatement.setString(5, row[3]);
+                                service.preparedStatement.executeUpdate();
+                                break;
+                            } else {
+                                textField9.setText("Wrong number input data.");
+                                break;
+                            }
+                        }
                     }
 
                 }
@@ -270,10 +374,7 @@ public class UserInterface extends JFrame {
             }
         });
 
-        textField5.addActionListener((e) -> {
-            //System.out.println("Кнопка нажата. Lambda!");
-            comboBox5.getSelectedItem();
-        });
+        textField5.addActionListener((e) -> comboBox5.getSelectedItem());
 
         refreshButton1.addActionListener((e) -> {                           //листнер к кнопке обновить
             try {
@@ -313,9 +414,9 @@ public class UserInterface extends JFrame {
         addWindowListener(new WindowAdapter() {                                     //листнер на крестик, чтобы при ее нажатие на него, вначале происходило отключение от БД. и затем завершение работы
             @Override
             public void windowClosing(WindowEvent e) {
-               service.closeDB();
+                service.closeDB();
                 System.out.println("Success");
-               System.exit(0);
+                System.exit(0);
             }
         });
     }
@@ -350,7 +451,6 @@ public class UserInterface extends JFrame {
         dbTableModel4.setDataSource(service.resultSet);
     }
 
-    //Код сгенеренный IDE
     /**
      * Method generated by IntelliJ IDEA GUI Designer
      * >>> IMPORTANT!! <<<
