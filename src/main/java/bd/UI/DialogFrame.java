@@ -6,12 +6,13 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 import java.sql.Types;
 
 /**
  * Created by Александр on 21.07.2014.
  */
+
+//Класс диалогового окна, в котором задаются параметры строки
 public class DialogFrame extends JDialog {
     public JTextField textField1;
     public JTextField textField2;
@@ -24,8 +25,8 @@ public class DialogFrame extends JDialog {
     public JButton сохранитьButton;
     public JButton отменитьButton;
     private JPanel panel1;
-    public boolean addFlag = false;
-    //Service service = new Service();
+    public boolean addFlag = false;             //Флаг, позоляющий понять, нажата была кнопка "Добавить" или "Редактировать"
+    Service service = new Service();
 
     public DialogFrame(JFrame owner) {
         super(owner, true);
@@ -39,6 +40,7 @@ public class DialogFrame extends JDialog {
         Container contentPane = getContentPane();
         contentPane.add($$$getRootComponent$$$());
 
+
         отменитьButton.addActionListener((e) -> {
             setVisible(false);
             textField1.setText("");
@@ -49,90 +51,100 @@ public class DialogFrame extends JDialog {
             textField6.setText("");
             textField7.setText("");
             textField8.setText("");
+            service.closeDB();
         });
 
-    }
+        сохранитьButton.addActionListener((e) -> {                                                                                                  //Листнер на кнопку "Сохранить"
+                    try {
+                        if (addFlag) {                                                                                                              //Если true выполняется код добавление новой строки в БД
+                            service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
+                            if (textField1.getText().isEmpty()) textField1.setText("Это поле не может быть пустым");                                //Некоторые строки не могут быть пустыми, для них идет проверка
+                            else {                                                                                                                  //Если нажать кнопку сохранить с незаполненными данными, в строках где это запрещено,
+                                service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));                                        //вылетит исключение, которое обработано выводом сообщения в консоль
+                            }
+                            if (textField2.getText().isEmpty()) textField2.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(2, textField2.getText());
+                            }
+                            if (textField3.getText().isEmpty()) textField3.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(3, textField3.getText());
+                            }
+                            service.preparedStatement.setString(4, textField4.getText());
+                            if (textField5.getText().isEmpty()) service.preparedStatement.setNull(5, Types.DATE);
+                            else {
+                                service.preparedStatement.setString(5, textField5.getText());
+                            }
+                            if (textField6.getText().isEmpty()) service.preparedStatement.setNull(6, Types.INTEGER);
+                            else {
+                                service.preparedStatement.setString(6, textField6.getText());
+                            }
+                            if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(7, textField7.getText());
+                            }
+                            if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(8, textField8.getText());
+                            }
+                            service.preparedStatement.executeUpdate();
 
-    public void save(Service service) {
-        сохранитьButton.addActionListener((e) -> {
-            try {
-                System.out.print("sdfsd");
-                if (addFlag) {
-                    service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
-                    if (textField1.getText().isEmpty()) textField1.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));
+                        } else {                                                                                                                    //Если addFlag — false, выполнится код для редактирования строки в БД
+                            service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
+                            service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));
+                            service.preparedStatement.executeUpdate();
+                            service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+                            if (textField1.getText().isEmpty()) textField1.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));
+                            }
+                            if (textField2.getText().isEmpty()) textField2.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(2, textField2.getText());
+                            }
+                            if (textField3.getText().isEmpty()) textField3.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(3, textField3.getText());
+                            }
+                            service.preparedStatement.setString(4, textField4.getText());
+                            if (textField5.getText().isEmpty()) service.preparedStatement.setNull(5, Types.DATE);
+                            else {
+                                service.preparedStatement.setString(5, textField5.getText());
+                            }
+                            if (textField6.getText().isEmpty()) service.preparedStatement.setNull(6, Types.INTEGER);
+                            else {
+                                service.preparedStatement.setString(6, textField6.getText());
+                            }
+                            if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(7, textField7.getText());
+                            }
+                            if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
+                            else {
+                                service.preparedStatement.setString(8, textField8.getText());
+                            }
+                            service.preparedStatement.executeUpdate();
+                        }
+                        setVisible(false);
+                        textField1.setText("");
+                        textField2.setText("");
+                        textField3.setText("");
+                        textField4.setText("");
+                        textField5.setText("");
+                        textField6.setText("");
+                        textField7.setText("");
+                        textField8.setText("");
+                        addFlag = false;
+                        service.closeDB();
+
+                    } catch (Exception e1) {
+                        System.out.println("Ошибка! Проверьте входные данные.");
                     }
-                    if (textField2.getText().isEmpty()) textField2.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(2, textField2.getText());
-                    }
-                    if (textField3.getText().isEmpty()) textField3.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(3, textField3.getText());
-                    }
-                    service.preparedStatement.setString(4, textField4.getText());
-                    if (textField5.getText().isEmpty()) service.preparedStatement.setNull(5, Types.DATE);
-                    else {
-                        service.preparedStatement.setString(5, textField5.getText());
-                    }
-                    service.preparedStatement.setString(6, textField6.getText());
-                    if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(7, textField7.getText());
-                    }
-                    if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(8, textField8.getText());
-                    }
-                    service.preparedStatement.executeUpdate();
-                } else {
-                    service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                 //подготовленный запрос
-                    service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));                                                                             //здесь передаем в подготовленный запрос параметр
-                    service.preparedStatement.executeUpdate();
-                    service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
-                    if (textField1.getText().isEmpty()) textField1.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));
-                    }
-                    if (textField2.getText().isEmpty()) textField2.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(2, textField2.getText());
-                    }
-                    if (textField3.getText().isEmpty()) textField3.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(3, textField3.getText());
-                    }
-                    service.preparedStatement.setString(4, textField4.getText());
-                    if (textField5.getText().isEmpty()) service.preparedStatement.setNull(5, Types.DATE);
-                    else {
-                        service.preparedStatement.setString(5, textField5.getText());
-                    }
-                    service.preparedStatement.setString(6, textField6.getText());
-                    if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(7, textField7.getText());
-                    }
-                    if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
-                    else {
-                        service.preparedStatement.setString(8, textField8.getText());
-                    }
-                    service.preparedStatement.executeUpdate();
                 }
-                setVisible(false);
-                textField1.setText("");
-                textField2.setText("");
-                textField3.setText("");
-                textField4.setText("");
-                textField5.setText("");
-                textField6.setText("");
-                textField7.setText("");
-                textField8.setText("");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
+
+        );
     }
+
 
     /**
      * Method generated by IntelliJ IDEA GUI Designer

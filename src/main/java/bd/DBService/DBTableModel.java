@@ -8,15 +8,16 @@ import java.util.ArrayList;
 /**
  * Created by Александр on 08.07.2014.
  */
-//для изменения модели уже созданной таблицы
+
+//Класс в котором создаем собственную модель, для ее использования в дальнейшем
 public class DBTableModel
         extends AbstractTableModel {
     // здесь мы будем хранить названия столбцов
-    private ArrayList<String> columnNames = new ArrayList<String>();
+    private ArrayList<String> columnNames = new ArrayList<>();
     // список типов столбцов
-    private ArrayList<Class> columnTypes = new ArrayList<Class>();
+    private ArrayList<Class> columnTypes = new ArrayList<>();
     // хранилище для полученных данных из базы данных
-    private ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+    private ArrayList<ArrayList<Object>> data = new ArrayList<>();
 
     // конструктор позволяет задать возможность редактирования
     public DBTableModel(boolean editable) {
