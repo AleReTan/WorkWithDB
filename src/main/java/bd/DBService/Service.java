@@ -12,7 +12,6 @@ public class Service {
     public Statement statement = null;                          //Для хранения запросов
     public PreparedStatement preparedStatement = null;          //Предварительно компилирует запрос
     public ResultSet resultSet = null;                          //Результат запросов
-
     //подключение к БД
     public void openDB() {
         String user = "root";                                   //логин

@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.sql.Types;
 
 
 /**
@@ -52,7 +51,9 @@ public class UserInterface extends JFrame {
     private JButton deleteButton;
     private JButton refreshButton;
     private JPanel panel2;
+    private JScrollPane jScrollPane1;
     public Service service = new Service();
+    public DialogFrame dialog = new DialogFrame(UserInterface.this);
 
     //конструктор класса
     public UserInterface() throws Exception {
@@ -85,10 +86,58 @@ public class UserInterface extends JFrame {
         textField8.setToolTipText("Укажите id издательства");
         textField9.setToolTipText("Укажите id экземпляра");
 
+
         //подключение к БД
         service.openDB();                                                                                                                               //подключаемся к БД
         refreshDB();                                                                                                                                    //считываем первый раз данные
         //листнеры на кнопки и т.д.
+        refreshButton.addActionListener((e) -> {
+            try {
+                refreshDB();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        });
+
+        addButton.addActionListener((e) -> {
+            dialog.addFlag = true;
+            Integer newRowCount = table1.getRowCount() + 1;
+            dialog.textField1.setText(newRowCount.toString());
+            dialog.setVisible(true);
+            dialog.save(service);
+        });
+
+        editButton.addActionListener((e) -> {
+            if (table1.getSelectedRow() != -1) {
+                Integer id = table1.getSelectedRow() + 1;
+                dialog.textField1.setText(id.toString());
+                dialog.textField2.setText(table1.getValueAt(id - 1, 1).toString());
+                dialog.textField3.setText(table1.getValueAt(id - 1, 2).toString());
+                dialog.textField4.setText(table1.getValueAt(id - 1, 3).toString());
+                dialog.textField5.setText(table1.getValueAt(id - 1, 4).toString());
+                dialog.textField6.setText(table1.getValueAt(id - 1, 5).toString());
+                dialog.textField7.setText(table1.getValueAt(id - 1, 6).toString());
+                dialog.textField8.setText(table1.getValueAt(id - 1, 7).toString());
+                dialog.setVisible(true);
+
+            } else textField1.setText("Вначале нужно выбрать строку");
+        });
+
+        deleteButton.addActionListener((e) -> {
+            try {
+                if (table1.getSelectedRow() != -1) {
+                    int id = table1.getSelectedRow() + 1;
+                    service.preparedStatement = service.connection.prepareStatement("delete from books where idBooks = ?");                         //подготовленный запрос
+                    service.preparedStatement.setInt(1, id);                                                                                        //здесь и ниже передаем в подготовленный запрос параметры
+                    service.preparedStatement.executeUpdate();
+                } else textField1.setText("Вначале нужно выбрать строку");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+
+/*
         confirmButton1.addActionListener((e) -> {
             try {
                 String string = comboBox1.getSelectedItem().toString();                                                                                 //получаем то, что выбрано в comboBox'е
@@ -484,14 +533,15 @@ public class UserInterface extends JFrame {
         refreshButton1 = new JButton();
         refreshButton1.setText("Refresh");
         panel3.add(refreshButton1, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane1 = new JScrollPane();
-        panel3.add(scrollPane1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        jScrollPane1 = new JScrollPane();
+        panel3.add(jScrollPane1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         table1 = new JTable();
         table1.setAutoCreateRowSorter(false);
-        table1.setCellSelectionEnabled(true);
-        table1.setColumnSelectionAllowed(true);
+        table1.setCellSelectionEnabled(false);
+        table1.setColumnSelectionAllowed(false);
+        table1.setRowSelectionAllowed(true);
         table1.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
-        scrollPane1.setViewportView(table1);
+        jScrollPane1.setViewportView(table1);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Visitors", panel4);
@@ -507,12 +557,12 @@ public class UserInterface extends JFrame {
         refreshButton2 = new JButton();
         refreshButton2.setText("Refresh");
         panel4.add(refreshButton2, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane2 = new JScrollPane();
-        panel4.add(scrollPane2, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        panel4.add(scrollPane1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         table2 = new JTable();
         table2.setAutoCreateRowSorter(false);
         table2.setCellSelectionEnabled(true);
-        scrollPane2.setViewportView(table2);
+        scrollPane1.setViewportView(table2);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Publishing House", panel5);
@@ -528,11 +578,11 @@ public class UserInterface extends JFrame {
         refreshButton3 = new JButton();
         refreshButton3.setText("Refresh");
         panel5.add(refreshButton3, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane3 = new JScrollPane();
-        panel5.add(scrollPane3, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel5.add(scrollPane2, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         table3 = new JTable();
         table3.setCellSelectionEnabled(true);
-        scrollPane3.setViewportView(table3);
+        scrollPane2.setViewportView(table3);
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Exemplar", panel6);
@@ -549,11 +599,11 @@ public class UserInterface extends JFrame {
         refreshButton4 = new JButton();
         refreshButton4.setText("Refresh");
         panel6.add(refreshButton4, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane4 = new JScrollPane();
-        panel6.add(scrollPane4, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane3 = new JScrollPane();
+        panel6.add(scrollPane3, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         table4 = new JTable();
         table4.setCellSelectionEnabled(true);
-        scrollPane4.setViewportView(table4);
+        scrollPane3.setViewportView(table4);
         panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

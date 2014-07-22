@@ -7,7 +7,7 @@ import bd.UI.UserInterface;
  */
 public class MainClass {
     public static void main(String[] args) throws Exception {
-        UserInterface ui = new UserInterface();//объект интерфейса
+        UserInterface ui = new UserInterface(); //объект интерфейса
         ui.show();
     }
 }

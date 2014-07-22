@@ -69,7 +69,7 @@
                   <text value="Refresh"/>
                 </properties>
               </component>
-              <scrollpane id="3ed5c">
+              <scrollpane id="3ed5c" binding="jScrollPane1">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -80,8 +80,9 @@
                     <constraints/>
                     <properties>
                       <autoCreateRowSorter value="false"/>
-                      <cellSelectionEnabled value="true"/>
-                      <columnSelectionAllowed value="true"/>
+                      <cellSelectionEnabled value="false"/>
+                      <columnSelectionAllowed value="false"/>
+                      <rowSelectionAllowed value="true"/>
                     </properties>
                     <clientProperties>
                       <JTable.autoStartsEdit class="java.lang.Boolean" value="false"/>
