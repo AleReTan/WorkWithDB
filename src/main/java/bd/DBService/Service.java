@@ -1,5 +1,6 @@
 package bd.DBService;
 
+import javax.swing.*;
 import java.sql.*;
 
 /**
@@ -29,7 +30,7 @@ public class Service {
             connection = DriverManager.getConnection(url, user, password);
             statement = connection.createStatement();
         } catch (SQLException e) {
-            System.out.println("Database currently is unavailable.");
+            JOptionPane.showMessageDialog(null, "Database currently is unavailable.");
             System.exit(0);
         }
 

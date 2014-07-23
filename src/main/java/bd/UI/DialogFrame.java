@@ -18,10 +18,8 @@ public class DialogFrame extends JDialog {
     public JTextField textField2;
     public JTextField textField5;
     public JTextField textField6;
-    public JTextField textField7;
     public JTextField textField3;
     public JTextField textField4;
-    public JTextField textField8;
     public JButton сохранитьButton;
     public JButton отменитьButton;
     private JPanel panel1;
@@ -53,8 +51,6 @@ public class DialogFrame extends JDialog {
             textField6.setText("");
             comboBox1.removeAllItems();
             comboBox2.removeAllItems();
-//            textField7.setText("");
-//            textField8.setText("");
             service.closeDB();
         });
 
@@ -85,14 +81,6 @@ public class DialogFrame extends JDialog {
                             else {
                                 service.preparedStatement.setString(6, textField6.getText());
                             }
-                            /*if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
-                            else {
-                                service.preparedStatement.setString(7, textField7.getText());
-                            }
-                            if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
-                            else {
-                                service.preparedStatement.setString(8, textField8.getText());
-                            }*/
                             service.preparedStatement.setString(7, comboBox1.getSelectedItem().toString());
                             service.preparedStatement.setString(8, Integer.toString(comboBox2.getSelectedIndex() + 1));
                             service.preparedStatement.executeUpdate();
@@ -125,15 +113,6 @@ public class DialogFrame extends JDialog {
                             }
                             service.preparedStatement.setString(7, comboBox1.getSelectedItem().toString());
                             service.preparedStatement.setString(8, Integer.toString(comboBox2.getSelectedIndex() + 1));
-                            /*
-                            if (textField7.getText().isEmpty()) textField7.setText("Это поле не может быть пустым");
-                            else {
-                                service.preparedStatement.setString(7, textField7.getText());
-                            }
-                            if (textField8.getText().isEmpty()) textField8.setText("Это поле не может быть пустым");
-                            else {
-                                service.preparedStatement.setString(8, textField8.getText());
-                            }*/
                             service.preparedStatement.executeUpdate();
                         }
                         setVisible(false);
@@ -145,8 +124,6 @@ public class DialogFrame extends JDialog {
                         textField6.setText("");
                         comboBox1.removeAllItems();
                         comboBox2.removeAllItems();
-                        //textField7.setText("");
-                        //textField8.setText("");
                         addFlag = false;
                         service.closeDB();
 

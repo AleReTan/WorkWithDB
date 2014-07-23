@@ -97,8 +97,6 @@ public class UserInterface extends JFrame {
                 for (int i = 0; i < table3.getRowCount(); i++) {
                     dialog.comboBox2.addItem(table3.getValueAt(i, 1).toString());
                 }
-                //dialog.textField7.setText(table1.getValueAt(id - 1, 6).toString());
-                //dialog.textField8.setText(table1.getValueAt(id - 1, 7).toString());
                 dialog.setVisible(true);
 
             } else textField1.setText("Вначале нужно выбрать строку");
@@ -127,18 +125,9 @@ public class UserInterface extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 service.closeDB();
-                System.out.println("Success");
                 System.exit(0);
             }
         });
-    }
-
-    // Заполняет ComboBox вариантами выбора
-
-    private void setComboBoxItem(String[] string, JComboBox<String> combo) {
-        for (String aString : string) {
-            combo.addItem(aString);
-        }
     }
 
     //Обновляет таблицы, путем получения данных из БД
