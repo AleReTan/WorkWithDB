@@ -22,7 +22,6 @@ public class UserInterface extends JFrame {
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     public JTable table1;
-    private JComboBox<String> comboBox1;
     public JTable table2;
     public JTable table3;
     public JTable table4;
@@ -48,10 +47,6 @@ public class UserInterface extends JFrame {
         setLocation(screenWidth / 4, screenHeight / 4);
         setTitle("WorkWithDB");
 
-        //установка ComboBox'ов
-        String actions[] = {"Add",
-                "Delete"};
-//        setComboBoxItem(actions, comboBox1);
         //подключение к БД
         service.openDB();                                                                                                                           //Подключаемся к БД
         refreshDB();                                                                                                                                //Считываем первый раз данные
@@ -69,7 +64,18 @@ public class UserInterface extends JFrame {
             dialog.addFlag = true;
             Integer newRowCount = table1.getRowCount() + 1;
             dialog.textField1.setText(newRowCount.toString());
+
+            for (int i = 0; i < table4.getRowCount(); i++) {
+
+                dialog.comboBox1.addItem(table4.getValueAt(i, 0).toString());
+            }
+            for (int i = 0; i < table3.getRowCount(); i++) {
+
+                dialog.comboBox2.addItem(table3.getValueAt(i, 1).toString());
+            }
+
             dialog.setVisible(true);
+
         });
 
         editButton.addActionListener((e) -> {
@@ -84,8 +90,15 @@ public class UserInterface extends JFrame {
                 else dialog.textField5.setText(table1.getValueAt(id - 1, 4).toString());
                 if (dialog.textField6.getText().isEmpty()) dialog.textField6.setText("");
                 else dialog.textField6.setText(table1.getValueAt(id - 1, 5).toString());
-                dialog.textField7.setText(table1.getValueAt(id - 1, 6).toString());
-                dialog.textField8.setText(table1.getValueAt(id - 1, 7).toString());
+
+                for (int i = 0; i < table4.getRowCount(); i++) {
+                    dialog.comboBox1.addItem(table4.getValueAt(i, 0).toString());
+                }
+                for (int i = 0; i < table3.getRowCount(); i++) {
+                    dialog.comboBox2.addItem(table3.getValueAt(i, 1).toString());
+                }
+                //dialog.textField7.setText(table1.getValueAt(id - 1, 6).toString());
+                //dialog.textField8.setText(table1.getValueAt(id - 1, 7).toString());
                 dialog.setVisible(true);
 
             } else textField1.setText("Вначале нужно выбрать строку");
