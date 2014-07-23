@@ -64,52 +64,51 @@
         </constraints>
         <properties/>
       </component>
-      <component id="e6fc7" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Введите Id книги"/>
-        </properties>
-      </component>
       <component id="926b2" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Введите название книги"/>
+          <background swing-color="Button.darcula.color1"/>
+          <enabled value="true"/>
+          <foreground color="-16776961"/>
+          <text value="Название книги:"/>
         </properties>
       </component>
       <component id="4a92f" class="javax.swing.JLabel">
         <constraints>
-          <grid row="7" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Введите автора книги"/>
+          <enabled value="true"/>
+          <foreground color="-16776961"/>
+          <text value="Автор книги:"/>
         </properties>
       </component>
       <component id="8f9f5" class="javax.swing.JLabel">
         <constraints>
-          <grid row="10" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Введите жанр книги"/>
+          <text value="Жанр книги:"/>
         </properties>
       </component>
       <component id="3b02c" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Ведите количество страниц"/>
+          <text value="Количество страниц:"/>
         </properties>
       </component>
       <component id="618cb" class="javax.swing.JLabel">
         <constraints>
-          <grid row="7" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Укажите id экземпляра"/>
+          <enabled value="true"/>
+          <foreground color="-16776961"/>
+          <text value="Номер экземпляра:"/>
         </properties>
       </component>
       <component id="aac3c" class="javax.swing.JTextField" binding="textField8" default-binding="true">
@@ -122,18 +121,20 @@
       </component>
       <component id="e98f0" class="javax.swing.JLabel">
         <constraints>
-          <grid row="10" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="10" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Укажите id издательства"/>
+          <enabled value="true"/>
+          <foreground color="-16776961"/>
+          <text value="Издательство:"/>
         </properties>
       </component>
       <component id="dfadd" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Введите год выпуска"/>
+          <text value="Год выпуска:"/>
         </properties>
       </component>
       <component id="dae3b" class="javax.swing.JButton" binding="сохранитьButton" default-binding="true">

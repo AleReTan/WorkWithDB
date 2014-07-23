@@ -46,7 +46,7 @@
                       <autoCreateRowSorter value="false"/>
                       <cellSelectionEnabled value="false"/>
                       <columnSelectionAllowed value="false"/>
-                      <rowSelectionAllowed value="true"/>
+                      <rowSelectionAllowed value="false"/>
                     </properties>
                     <clientProperties>
                       <JTable.autoStartsEdit class="java.lang.Boolean" value="false"/>
@@ -54,12 +54,6 @@
                   </component>
                 </children>
               </scrollpane>
-              <component id="3af9e" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
             </children>
           </grid>
           <grid id="10858" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

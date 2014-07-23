@@ -51,7 +51,7 @@ public class UserInterface extends JFrame {
         //установка ComboBox'ов
         String actions[] = {"Add",
                 "Delete"};
-        setComboBoxItem(actions, comboBox1);
+//        setComboBoxItem(actions, comboBox1);
         //подключение к БД
         service.openDB();                                                                                                                           //Подключаемся к БД
         refreshDB();                                                                                                                                //Считываем первый раз данные
@@ -175,11 +175,9 @@ public class UserInterface extends JFrame {
         table1.setAutoCreateRowSorter(false);
         table1.setCellSelectionEnabled(false);
         table1.setColumnSelectionAllowed(false);
-        table1.setRowSelectionAllowed(true);
+        table1.setRowSelectionAllowed(false);
         table1.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
         jScrollPane1.setViewportView(table1);
-        comboBox1 = new JComboBox();
-        panel3.add(comboBox1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane1.addTab("Visitors", panel4);

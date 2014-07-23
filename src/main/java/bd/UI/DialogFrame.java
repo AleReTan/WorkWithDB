@@ -39,7 +39,7 @@ public class DialogFrame extends JDialog {
         setLocation(screenWidth / 4, screenHeight / 4);
         Container contentPane = getContentPane();
         contentPane.add($$$getRootComponent$$$());
-
+        textField1.setVisible(false);
 
         отменитьButton.addActionListener((e) -> {
             setVisible(false);
@@ -58,7 +58,8 @@ public class DialogFrame extends JDialog {
                     try {
                         if (addFlag) {                                                                                                              //Если true выполняется код добавление новой строки в БД
                             service.preparedStatement = service.connection.prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?);");  //подготовленный запрос
-                            if (textField1.getText().isEmpty()) textField1.setText("Это поле не может быть пустым");                                //Некоторые строки не могут быть пустыми, для них идет проверка
+                            if (textField1.getText().isEmpty())
+                                textField1.setText("Это поле не может быть пустым");                                //Некоторые строки не могут быть пустыми, для них идет проверка
                             else {                                                                                                                  //Если нажать кнопку сохранить с незаполненными данными, в строках где это запрещено,
                                 service.preparedStatement.setInt(1, Integer.parseInt(textField1.getText()));                                        //вылетит исключение, которое обработано выводом сообщения в консоль
                             }
@@ -171,31 +172,37 @@ public class DialogFrame extends JDialog {
         textField4 = new JTextField();
         panel1.add(textField4, new GridConstraints(12, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label1 = new JLabel();
-        label1.setText("Введите Id книги");
-        panel1.add(label1, new GridConstraints(0, 0, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label1.setBackground(UIManager.getColor("Button.darcula.color1"));
+        label1.setEnabled(true);
+        label1.setForeground(new Color(-16776961));
+        label1.setText("Название книги:");
+        panel1.add(label1, new GridConstraints(4, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Введите название книги");
-        panel1.add(label2, new GridConstraints(4, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label2.setEnabled(true);
+        label2.setForeground(new Color(-16776961));
+        label2.setText("Автор книги:");
+        panel1.add(label2, new GridConstraints(7, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Введите автора книги");
-        panel1.add(label3, new GridConstraints(7, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label3.setText("Жанр книги:");
+        panel1.add(label3, new GridConstraints(10, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Введите жанр книги");
-        panel1.add(label4, new GridConstraints(10, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label4.setText("Количество страниц:");
+        panel1.add(label4, new GridConstraints(4, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Ведите количество страниц");
-        panel1.add(label5, new GridConstraints(4, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label6 = new JLabel();
-        label6.setText("Укажите id экземпляра");
-        panel1.add(label6, new GridConstraints(7, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label5.setEnabled(true);
+        label5.setForeground(new Color(-16776961));
+        label5.setText("Номер экземпляра:");
+        panel1.add(label5, new GridConstraints(7, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         textField8 = new JTextField();
         panel1.add(textField8, new GridConstraints(12, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label6 = new JLabel();
+        label6.setEnabled(true);
+        label6.setForeground(new Color(-16776961));
+        label6.setText("Издательство:");
+        panel1.add(label6, new GridConstraints(10, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label7 = new JLabel();
-        label7.setText("Укажите id издательства");
-        panel1.add(label7, new GridConstraints(10, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label8 = new JLabel();
-        label8.setText("Введите год выпуска");
-        panel1.add(label8, new GridConstraints(0, 1, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label7.setText("Год выпуска:");
+        panel1.add(label7, new GridConstraints(0, 1, 3, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         сохранитьButton = new JButton();
         сохранитьButton.setText("Сохранить");
         panel1.add(сохранитьButton, new GridConstraints(14, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
